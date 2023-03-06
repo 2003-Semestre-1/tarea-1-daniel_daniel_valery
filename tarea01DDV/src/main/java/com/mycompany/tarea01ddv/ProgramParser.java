@@ -32,16 +32,20 @@ public class ProgramParser {
         }
         
         String ASMProgram = Files.readString(Paths.get(path), Charset.defaultCharset());
-        
-        String[] instruc = ASMProgram.split("\n");
-        
-        ArrayList<int[]> instrucciones = formarInstrucciones(instruc);
-        
-        if(!isCorrectFormat(instrucciones)){
-            throw new Exception("Program is formatted incorrectly");
+        if(ASMProgram.equals("")){
+            return null;
         }
-        
-        return instrucciones;
+        else{
+            String[] instruc = ASMProgram.split("\n");
+
+            ArrayList<int[]> instrucciones = formarInstrucciones(instruc);
+
+            if(!isCorrectFormat(instrucciones)){
+                throw new Exception("Program is formatted incorrectly");
+            }
+
+            return instrucciones;
+        }
     }
     
     /**

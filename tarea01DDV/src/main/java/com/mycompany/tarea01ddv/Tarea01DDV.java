@@ -28,29 +28,34 @@ public class Tarea01DDV {
             System.out.println(e.getMessage());
             System.exit(0);
         }
-        
-        ExecuteProgram executeLoop = new ExecuteProgram();
-        
-        executeLoop.cargarPrograma(instrucciones);
-        
-        int step = 0;
-        int i = 0;
-        
-        while(i<instrucciones.size()){
-            if (step%2 == 0){
-                executeLoop.fetch();
-                System.out.println("Fetch instruccion #"+i);
-                System.out.println(executeLoop.toString());
-                System.out.println("\n-----------------------------------------\n");
-            }else{
-                executeLoop.execute();
-                System.out.println("Execute instruccion #"+i);
-                System.out.println(executeLoop.toString());
-                System.out.println("\n-----------------------------------------\n");
-                i++;
+        if(instrucciones!=(null) && !instrucciones.isEmpty()){
+
+            ExecuteProgram executeLoop = new ExecuteProgram();
+
+            executeLoop.cargarPrograma(instrucciones);
+
+            int step = 0;
+            int i = 0;
+
+            while(i<instrucciones.size()){
+                if (step%2 == 0){
+                    executeLoop.fetch();
+                    System.out.println("Fetch instruccion #"+i);
+                    System.out.println(executeLoop.toString());
+                    System.out.println("\n-----------------------------------------\n");
+                }else{
+                    executeLoop.execute();
+                    System.out.println("Execute instruccion #"+i);
+                    System.out.println(executeLoop.toString());
+                    System.out.println("\n-----------------------------------------\n");
+                    i++;
+                }
+                step++;
             }
-            step++;
+            int stop=0;   
+         }
+        else{
+            System.out.println("The file is empty.");
         }
-        int stop=0;        
     }
 }
