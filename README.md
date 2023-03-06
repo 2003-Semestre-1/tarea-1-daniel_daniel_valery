@@ -1,8 +1,10 @@
-# [NOMBRE DEL PROYECTO]
+# Ultra-Mega-S
 ## Integrantes:
-### [Carné] [Nombre]
+### 2018155978 Daniel Villatoro.
+### 2018229200 Daniel Calderón.
+### 2018176339 Valery Vega.
 
-### Estado del proyecto: Escala de 1 a 5, 1 siendo completo y 5 deplorable
-### Plataforma utilizada (Netbeans o IntelliJ)
+### Estado del proyecto: 1
+### Plataforma utilizada: Netbeans
 ### Enlace del video: 
-Recordar que el video debe ser **público** y con **sonido** para ser visto y escuchado por el profesor
+
