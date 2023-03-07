@@ -4,7 +4,7 @@
 ### 2018229200 Daniel Calderón.
 ### 2018176339 Valery Vega.
 
-### Estado del proyecto: 1
-### Plataforma utilizada: Netbeans
-### Enlace del video: 
+### Estado del proyecto: 1.
+### Plataforma utilizada: Netbeans.
+### Enlace del video: https://youtu.be/A8EIG7ImnL0
 

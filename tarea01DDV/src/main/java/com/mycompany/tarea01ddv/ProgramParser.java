@@ -16,6 +16,9 @@ import java.util.ArrayList;
  */
 public class ProgramParser {
     
+    ArrayList<String[]> asmInstrucs = new ArrayList<>();
+    ArrayList<String> instrucsBinary = new ArrayList<>();
+    
     /**
      * Metodo que procesa el archivo con el programa y que obtiene las instrucciones
      * y a su vez, se asegura de que la estructura del programa sea correcta.
@@ -32,20 +35,56 @@ public class ProgramParser {
         }
         
         String ASMProgram = Files.readString(Paths.get(path), Charset.defaultCharset());
-        if(ASMProgram.equals("")){
+        
+       if(ASMProgram.equals("")){
             return null;
         }
         else{
             String[] instruc = ASMProgram.split("\n");
 
+            asmInstrucs.add(instruc);
+            
             ArrayList<int[]> instrucciones = formarInstrucciones(instruc);
 
+            
+            
             if(!isCorrectFormat(instrucciones)){
                 throw new Exception("Program is formatted incorrectly");
             }
 
+            generarInstruccionesBinarias(instrucciones);
+            
             return instrucciones;
         }
+    }
+    
+    
+    public void generarInstruccionesBinarias(ArrayList<int[]> instrucciones){
+        ArrayList<String> resultado = new ArrayList<>();
+        String ins1;
+        String ins2;
+        String ins3;
+        for (int[] instrucs : instrucciones){
+          
+            ins1 = Integer.toBinaryString(instrucs[0]);
+            ins1 = String.format("%4s", ins1).replace(' ', '0');
+            
+            ins2 = Integer.toBinaryString(instrucs[1]);
+            ins2 = String.format("%4s", ins2).replace(' ', '0');
+            if(instrucs[2]<0){
+                ins3 = Integer.toBinaryString(instrucs[2]*-1);
+                ins3 = String.format("%8s", ins3).replace(' ', '0');
+                ins3 = ins3.replaceAll("^.", "1");
+                resultado.add(ins1+" "+ins2+" "+ins3+" ");
+            }
+            else{
+                ins3 = Integer.toBinaryString(instrucs[2]);
+                ins3 = String.format("%8s", ins3).replace(' ', '0');
+                resultado.add(ins1+" "+ins2+" "+ins3+" ");
+            }
+            
+        }
+        this.instrucsBinary = resultado;
     }
     
     /**

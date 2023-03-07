@@ -19,7 +19,7 @@ public class ExecuteProgram {
     private int[] IR = null;
     private int[][] memoria = new int [MAX_MEMORY][];
     private int[] registros = {0,0,0,0};
-    
+     
     /**
      * Metodo que limpia las variables.
      */
@@ -91,7 +91,25 @@ public class ExecuteProgram {
     public int[] getRegistros() {
         return registros;
     }
+    
+    public int getAX() {
+        return registros[0];
+    }
+    
+    public int getBX() {
+        return registros[1];
+    }
+    
+    public int getCX() {
+        return registros[2];
+    }
+    
+    public int getDX() {
+        return registros[3];
+    }
 
+    
+    
     @Override
     public String toString() {
         return "Registros : AX:"+this.registros[0]+" BX: "+this.registros[1]+" CX: "+this.registros[2]+" DX: "+this.registros[3]+"\n"+"AC: "+this.AC;
