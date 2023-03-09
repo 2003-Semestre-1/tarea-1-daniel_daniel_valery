@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -101,6 +103,7 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane3.setViewportView(registros);
 
         nextBtn.setText("Ejecutar siguiente instrucción");
+        nextBtn.setEnabled(false);
         nextBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextBtnActionPerformed(evt);
@@ -187,14 +190,17 @@ public class GUI extends javax.swing.JFrame {
             File selectedFile = fileChooser.getSelectedFile();
             fileNameLabel.setText(selectedFile.getAbsolutePath());
             fileName = selectedFile.getAbsolutePath();
+            nextBtn.setEnabled(false);
+            limpiarElementos();
             initValues();
+            
         }
         
         
     }//GEN-LAST:event_cargarASMbuttonActionPerformed
 
     private void nextBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextBtnActionPerformed
-        // TODO add your handling code here:
+
         ejecutarInstruccion();
     }//GEN-LAST:event_nextBtnActionPerformed
 
@@ -272,91 +278,21 @@ public class GUI extends javax.swing.JFrame {
             instruccionesBin = parser.instrucsBinary;
             
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.exit(0);
+            System.out.println(e.getMessage());         
+            JOptionPane.showMessageDialog(mainPanel, "Formato de archivo incorrecto", "ERROR",JOptionPane.ERROR_MESSAGE);
+            return;
         }
         if(instrucciones!=(null) && !instrucciones.isEmpty()){   
             executeLoop.cargarPrograma(instrucciones);
             llenarAsmBinario(instruccionesRaw,instruccionesBin);
-            llenarMemoria(executeLoop);
+            llenarMemoria(executeLoop);         
+            JOptionPane.showMessageDialog(mainPanel, "Archivo "+ fileName +" cargado al sistema", "Info",JOptionPane.INFORMATION_MESSAGE);
+            nextBtn.setEnabled(true);
         }
         else{
-            System.out.println("The file is empty.");
+            JOptionPane.showMessageDialog(mainPanel, "Archivo vacío", "ERROR",JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-//    public void inicio() {
-//   
-//        DefaultTableModel model = (DefaultTableModel) registros.getModel();
-//        String inputFileName = fileName;
-//                
-//        ProgramParser parser = new ProgramParser();
-//        ArrayList<int[]> instrucciones = null;
-//        ArrayList<String[]> instruccionesRaw = null;
-//        ArrayList<String> instruccionesBin = null;
-//        try {
-//            instrucciones = parser.parse(inputFileName);
-//            instruccionesRaw = parser.asmInstrucs;
-//            instruccionesBin = parser.instrucsBinary;
-//            
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            System.exit(0);
-//        }
-//        if(instrucciones!=(null) && !instrucciones.isEmpty()){
-//        
-//            ExecuteProgram executeLoop = new ExecuteProgram();
-//
-//            executeLoop.cargarPrograma(instrucciones);
-//            llenarAsmBinario(instruccionesRaw,instruccionesBin);
-//            llenarMemoria(executeLoop);
-//            
-//
-//            while(i<instrucciones.size()){
-//                if (step%2 == 0){
-//                    executeLoop.fetch();
-//                    System.out.println("Fetch instruccion #"+i);
-//                    instruccionCounter.setText(String.valueOf(i));
-//                    Object[] row0 = {"Fetch instruccion #"+String.valueOf(i)};
-//                    model.addRow(row0);
-//                    Object[] row1 = {"AX",executeLoop.getAX()};
-//                    model.addRow(row1);
-//                    Object[] row2 = {"BX",executeLoop.getBX()};
-//                    model.addRow(row2);
-//                    Object[] row3 = {"CX",executeLoop.getCX()};
-//                    model.addRow(row3);
-//                    Object[] row4 = {"DX",executeLoop.getDX()};
-//                    model.addRow(row4);
-//                    Object[] row5 = {"AC",executeLoop.getAC()};
-//                    model.addRow(row5);   
-//                    System.out.println(executeLoop.toString());
-//                    System.out.println("\n-----------------------------------------\n");
-//                }else{
-//                    executeLoop.execute();
-//                    Object[] row0 = {"Execute instruccion #"+String.valueOf(i)};
-//                    model.addRow(row0);
-//                    Object[] row1 = {"AX",executeLoop.getAX()};
-//                    model.addRow(row1);
-//                    Object[] row2 = {"BX",executeLoop.getBX()};
-//                    model.addRow(row2);
-//                    Object[] row3 = {"CX",executeLoop.getCX()};
-//                    model.addRow(row3);
-//                    Object[] row4 = {"DX",executeLoop.getDX()};
-//                    model.addRow(row4);
-//                    Object[] row5 = {"AC",executeLoop.getAC()};
-//                    model.addRow(row5);
-//                    System.out.println("Execute instruccion #"+i);
-//                    System.out.println(executeLoop.toString());
-//                    System.out.println("\n-----------------------------------------\n");
-//                    i++;
-//                }
-//                step++;
-//            }
-//        }
-//         else{
-//            System.out.println("The file is empty.");
-//        }
-//    }
     
     public void ejecutarInstruccion(){
         
@@ -401,6 +337,19 @@ public class GUI extends javax.swing.JFrame {
             }
             step++;
         }
+    }
+    
+    public void limpiarElementos(){
+        step = 0;
+        i = 0;
+        instruccionCounter.setText("0");
+        executeLoop.clear();
+        DefaultTableModel model = (DefaultTableModel) registros.getModel();
+        model.setRowCount(0);
+        DefaultTableModel modelAsm = (DefaultTableModel) asmBinarioTable.getModel();
+        modelAsm.setRowCount(0);
+        DefaultTableModel modelMem = (DefaultTableModel) memTable.getModel();
+        modelMem.setRowCount(0);
     }
   
     
